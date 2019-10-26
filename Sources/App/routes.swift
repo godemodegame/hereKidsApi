@@ -11,10 +11,14 @@ public func routes(_ router: Router) throws {
     router.get("hello") { req in
         return "Hello, world!"
     }
+    
+    let liveLocationController = LiveLocationController()
+    router.get("api/location", use: liveLocationController.index)
+    router.post("api/location", use: liveLocationController.create)
 
     // Example of configuring a controller
-    let todoController = TodoController()
-    router.get("todos", use: todoController.index)
-    router.post("todos", use: todoController.create)
-    router.delete("todos", Todo.parameter, use: todoController.delete)
+//    let todoController = TodoController()
+//    router.get("todos", use: todoController.index)
+//    router.post("todos", use: todoController.create)
+//    router.delete("todos", Todo.parameter, use: todoController.delete)
 }

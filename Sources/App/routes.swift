@@ -13,12 +13,16 @@ public func routes(_ router: Router) throws {
     }
     
     let liveLocationController = LiveLocationController()
-    router.get("api/location", use: liveLocationController.index)
-    router.post("api/location", use: liveLocationController.create)
+    router.get("api/location/live", use: liveLocationController.fetchOne)
+    router.post("api/location/live", use: liveLocationController.create)
 
-    // Example of configuring a controller
-//    let todoController = TodoController()
-//    router.get("todos", use: todoController.index)
-//    router.post("todos", use: todoController.create)
-//    router.delete("todos", Todo.parameter, use: todoController.delete)
+    let endPointController = EndPointController()
+    router.get("api/location/endPoint", use: endPointController.fetchOne)
+    router.post("api/location/endPoint", use: endPointController.create)
+    router.delete("api/location/endPoint", use: endPointController.clear)
+    
+    let polygonController = PolygonController()
+    router.get("api/location/polygon", use: polygonController.fetch)
+    router.post("api/location/polygon", use: polygonController.create)
+//    router.delete("api/location/polygon", use: polygonController.clear)
 }

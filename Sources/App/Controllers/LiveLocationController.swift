@@ -1,36 +1,20 @@
 import Vapor
-
-///// Controls basic CRUD operations on `Todo`s.
-//final class TodoController {
-//    /// Returns a list of all `Todo`s.
-//    func index(_ req: Request) throws -> Future<[Todo]> {
-//        return Todo.query(on: req).all()
-//    }
-//
-//    /// Saves a decoded `Todo` to the database.
-//    func create(_ req: Request) throws -> Future<Todo> {
-//        return try req.content.decode(Todo.self).flatMap { todo in
-//            return todo.save(on: req)
-//        }
-//    }
-//
-//    /// Deletes a parameterized `Todo`.
-//    func delete(_ req: Request) throws -> Future<HTTPStatus> {
-//        return try req.parameters.next(Todo.self).flatMap { todo in
-//            return todo.delete(on: req)
-//        }.transform(to: .ok)
-//    }
-//}
+import FluentSQLite
 
 final class LiveLocationController {
-    func index(_ req: Request) throws -> Future<[LiveLocation]> {
-        return LiveLocation.query(on: req).all()
-    }
-    
-    func create(_ req: Request) throws -> Future<LiveLocation> {
-        return try req.content.decode(LiveLocation.self).flatMap { location in
+    func create(_ req: Request) throws -> Future<CellorLocation> {
+        try req.content.decode(LiveLocation.self).flatMap({ (newLocation) -> EventLoopFuture<String> in
             LiveLocation.query(on: req).delete()
+            return newLocation.save(on: req).map { _ in
+                return "added"
+            }
+        })
+        return try req.content.decode(CellorLocation.self).flatMap { location in
             return location.save(on: req)
         }
+    }
+    
+    func fetchOne(_ req: Request) throws -> Future<LiveLocation> {
+        return LiveLocation.query(on: req).first().unwrap(or: Abort(HTTPResponseStatus(statusCode: 404)))
     }
 }

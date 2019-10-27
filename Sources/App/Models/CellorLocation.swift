@@ -1,7 +1,7 @@
 import Vapor
 import FluentSQLite
 
-final class LiveLocation: Codable {
+final class CellorLocation: Codable {
     var id: Int?
     var latitude: Double
     var longitude: Double
@@ -18,7 +18,7 @@ final class LiveLocation: Codable {
     }
 }
 
-extension LiveLocation: SQLiteModel { }
-extension LiveLocation: Migration { }
-extension LiveLocation: Content { }
-extension LiveLocation: Parameter { }
+extension CellorLocation: SQLiteModel { }
+extension CellorLocation: Migration { }
+extension CellorLocation: Content { }
+extension CellorLocation: Parameter { }

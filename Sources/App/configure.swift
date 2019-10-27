@@ -28,6 +28,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // Configure migrations
     var migrations = MigrationConfig()
     migrations.add(model: LiveLocation.self, database: .sqlite)
+    migrations.add(model: EndPoint.self, database: .sqlite)
+    migrations.add(model: Polygon.self, database: .sqlite)
+    migrations.add(model: CellorLocation.self, database: .sqlite)
     services.register(migrations)
     services.register(NIOServerConfig.default(hostname: "0.0.0.0"))
 }
